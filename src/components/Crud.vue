@@ -10,15 +10,11 @@
       >
         <div>
           <div v-if="selected?.id === todo?.id">
-            <input
-              class="text-black"
-              type="text"
-              :value="selected?.title?.title"
-            />
+            <Input type="text" v-model="selectTitle" />
           </div>
           <div v-else>
             <span>{{ todo.id }}</span>
-            {{ todo?.title.title }}
+            {{ todo?.title }}
           </div>
         </div>
         <div>
@@ -26,8 +22,8 @@
           <Button @click="remove(todo.id)">delete</Button>
         </div>
         <div class="flex" v-if="selected?.id === todo?.id">
-          <Button @click="save">Save</Button>
-          <Button @click="save">Cancel</Button>
+          <Button @click="update(todo.id, todo.title)">Save</Button>
+          <Button @click="cancel">Cancel</Button>
         </div>
       </div>
     </div>
@@ -36,14 +32,13 @@
 
 <script>
 import Service from "@/service/todo";
-
 export default {
   data() {
     return {
       todos: [],
       selected: null,
-      newTodo: "",
       inputValue: "",
+      selectTitle: "",
     };
   },
   methods: {
@@ -52,27 +47,26 @@ export default {
     },
     edit(value) {
       this.selected = value;
-      console.log(this.selected.title.title);
+      this.selectTitle = value.title;
     },
-    save() {
-      let res = this.todos.map((value, index) =>
-        index === this.selected ? { ...value, name: this.newName } : value
-      );
-      this.todos = res;
+    update(id) {
+      Service.update(id, this.selectTitle).then((_) => {
+        this.display();
+      });
       this.selected = null;
-      this.newName = "";
     },
     cancel() {
       this.selected = null;
     },
     add(e) {
       if (e.key === "Enter") {
-        let data = {
-          title: e.target.value,
-        };
-        Service.add(data).then(() => {
-          this.display();
-        });
+        Service.add(e.target.value)
+          .then(() => {
+            this.display();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         e.target.value = "";
       }
     },

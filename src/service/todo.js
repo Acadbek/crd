@@ -10,8 +10,8 @@ const Service = {
   async remove(id) {
     return await axios.delete(`/data/${id}`)
   },
-  async edit(todo) {
-    return await axios.put(`/data`, { todo })
+  async update(id, title) {
+    return await axios.put(`/data/${id}/`, { title })
   }
 };
 
