@@ -1,11 +1,17 @@
 import axios from './axios';
 
 const Service = {
-  add(todo) {
-    return axios.post('/data', { todo })
+  async add(title) {
+    return await axios.post('/data', { title })
   },
-  get() {
-    return axios.get('/data')
+  async get() {
+    return await axios.get('/data')
+  },
+  async remove(id) {
+    return await axios.delete(`/data/${id}`)
+  },
+  async edit(todo) {
+    return await axios.put(`/data`, { todo })
   }
 };
 
