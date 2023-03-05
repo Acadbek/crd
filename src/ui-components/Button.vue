@@ -44,8 +44,8 @@ export default {
   border-color: #e76868;
 }
 .save {
-  background-color: #047857;
-  color: #ffffff;
+  background-color: #fff;
+  color: #047857;
   padding: 5px 14px;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -54,6 +54,6 @@ export default {
   border-radius: 9999px;
 }
 .save:hover {
-  background-color: #065f46;
+  border-color: #065f46;
 }
 </style>
