@@ -17,6 +17,7 @@
             />
           </div>
           <div v-else>
+            <span>{{ todo.id }}</span>
             {{ todo?.title.title }}
           </div>
         </div>
@@ -42,10 +43,13 @@ export default {
       todos: [],
       selected: null,
       newTodo: "",
-      inputValue: "asdas",
+      inputValue: "",
     };
   },
   methods: {
+    display() {
+      Service.get().then((response) => (this.todos = response?.data));
+    },
     edit(value) {
       this.selected = value;
       console.log(this.selected.title.title);
@@ -66,10 +70,13 @@ export default {
         let data = {
           title: e.target.value,
         };
-        Service.add(data);
+        Service.add(data).then(() => {
+          this.display();
+        });
         e.target.value = "";
       }
     },
+
     remove(id) {
       Service.remove(id);
       let removedData = this.todos.filter((value) => value.id !== id);
@@ -78,7 +85,7 @@ export default {
     },
   },
   mounted() {
-    Service.get().then((response) => (this.todos = response?.data));
+    this.display();
   },
 };
 </script>
