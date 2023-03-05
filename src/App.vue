@@ -1,1 +1,3 @@
-<template><crud /></template>
+<template>
+  <crud-table />
+</template>

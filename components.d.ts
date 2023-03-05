@@ -10,6 +10,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Crud: typeof import('./src/components/Crud.vue')['default']
+    CrudTable: typeof import('./src/components/Crud-table.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
   }
 }

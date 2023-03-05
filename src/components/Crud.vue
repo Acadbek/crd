@@ -1,5 +1,5 @@
 <template>
-  <div class="text-white">
+  <div>
     <Input @keydown="add" v-model="inputValue" />
     <Button @click="add">Add</Button>
     <div>
