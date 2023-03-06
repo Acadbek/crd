@@ -33,6 +33,7 @@
         </tr>
       </thead>
       <tbody>
+        <loader v-if="loading" />
         <tr
           v-for="todo in todos"
           :key="todo?._id"
@@ -51,7 +52,11 @@
             </div>
           </td>
           <th v-if="selected?._id === todo?._id">
-            <Input v-model="selectTitle" type="text" />
+            <Input
+              :placeholder="'Enter new title'"
+              v-model="selectTitle"
+              type="text"
+            />
           </th>
           <th
             v-else
@@ -91,12 +96,15 @@ export default {
       selected: null,
       inputValue: "",
       selectTitle: "",
+      loading: true,
     };
   },
   methods: {
     display() {
+      this.loading = true;
       Service.get().then((response) => {
         this.todos = response?.data;
+        this.loading = false;
       });
     },
     edit(value) {
@@ -104,8 +112,10 @@ export default {
       this.selectTitle = value.title;
     },
     update(id) {
+      this.loading = true;
       Service.update(id, this.selectTitle).then((_) => {
         this.display();
+        this.loading = false;
       });
       this.selected = null;
     },
@@ -114,12 +124,14 @@ export default {
     },
     add(e) {
       if (e.key === "Enter") {
+        this.loading = true;
         Service.add(e.target.value)
           .then((res) => {
             this.display();
+            this.loading = false;
           })
           .catch((err) => {
-            console.log(err);
+            this.loading = false;
           });
         e.target.value = "";
       }

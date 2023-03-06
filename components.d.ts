@@ -10,5 +10,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CrudTable: typeof import('./src/components/Crud-table.vue')['default']
+    Loader: typeof import('./src/components/Loader.vue')['default']
   }
 }
