@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"json-server --watch db.json --port 8888\" \"vite\"",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server.js"

@@ -35,7 +35,7 @@
       <tbody>
         <tr
           v-for="todo in todos"
-          :key="todo?.id"
+          :key="todo?._id"
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
           <td class="w-4 p-4">
@@ -50,7 +50,7 @@
               >
             </div>
           </td>
-          <th v-if="selected?.id === todo?.id">
+          <th v-if="selected?._id === todo?._id">
             <Input v-model="selectTitle" type="text" />
           </th>
           <th
@@ -68,9 +68,9 @@
           <td class="px-6 py-4">3.0 lb.</td>
           <td class="flex items-center px-1 py-4 space-x-2">
             <Button @click="edit(todo)" type="default">Edit</Button>
-            <Button @click="remove(todo.id)" type="delete">Delete</Button>
-            <div v-if="selected?.id === todo?.id">
-              <Button type="save" @click="update(todo.id, todo.title)"
+            <Button @click="remove(todo._id)" type="delete">Delete</Button>
+            <div v-if="selected?._id === todo?._id">
+              <Button type="save" @click="update(todo._id, todo.title)"
                 >Save</Button
               >
               <Button type="default" @click="cancel">Cancel</Button>
@@ -95,7 +95,9 @@ export default {
   },
   methods: {
     display() {
-      Service.get().then((response) => (this.todos = response?.data));
+      Service.get().then((response) => {
+        this.todos = response?.data;
+      });
     },
     edit(value) {
       this.selected = value;
@@ -113,7 +115,7 @@ export default {
     add(e) {
       if (e.key === "Enter") {
         Service.add(e.target.value)
-          .then(() => {
+          .then((res) => {
             this.display();
           })
           .catch((err) => {
@@ -125,7 +127,7 @@ export default {
 
     remove(id) {
       Service.remove(id);
-      let removedData = this.todos.filter((value) => value.id !== id);
+      let removedData = this.todos.filter((value) => value._id !== id);
       this.todos = removedData;
       this.selected = null;
     },

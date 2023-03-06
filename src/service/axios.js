@@ -1,4 +1,4 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8888';
+axios.defaults.baseURL = 'https://crud-backend-asad-2.onrender.com';
 export default axios;
